@@ -7,7 +7,7 @@ const RowsPerPage = ({
     <select
       value={rowsPerPage}
       onChange={(e) => onRowsPerPageChange(parseInt(e.target.value))}
-      className="p-2 bg-blocks-color"
+      className="p-2 bg-blocks-color border"
     >
       {[5, 10, 25, 50, 100, filteredDataLength].map((size) => (
         <option key={size} value={size}>

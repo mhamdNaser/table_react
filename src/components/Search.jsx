@@ -5,7 +5,7 @@ const Search = ({ query, onSearchChange }) => {
       placeholder="Search..."
       value={query}
       onChange={(e) => onSearchChange(e.target.value)}
-      className="p-2 bg-blocks-color"
+      className="p-2 bg-blocks-color border"
     />
   );
 };

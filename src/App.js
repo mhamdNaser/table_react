@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import axios from "axios";
+// import axios from "axios";
 import Table from "./Table";
 
 function App() {
-  const [admins, setAdmins] = useState([
+  const [admins] = useState([
     {
       id: 1,
       username: "admin1",
@@ -111,27 +111,27 @@ function App() {
 
   const columns = [
     {
-      name: "Username",
+      name: "اسم المستخدم",
       selector: (row) => row.username,
       maxWidth: "15%",
     },
     {
-      name: "Full Name",
+      name: "الأسم الكامل",
       selector: (row) => row.name,
       maxWidth: "15%",
     },
     {
-      name: "Email",
+      name: "البريد الإلكتروني",
       selector: (row) => row.email,
       maxWidth: "15%",
     },
     {
-      name: "Phone",
+      name: "الهاتف",
       selector: (row) => row.phone,
       maxWidth: "15%",
     },
     {
-      name: "Actions",
+      name: "الحركات",
       cell: (row) => (
         <div className="flex gap-x-2 gap-y-1 items-center w-full flex-wrap">
           <button
@@ -156,11 +156,14 @@ function App() {
         print id
       </button>
       <Table
-        Title={"this table"}
-        direction={"ltr"}
+        Title={"إسم الجدول"}
+        headercolor="bg-gray-400"
+        cellborder={false}
+        direction={"rtl"}
         columns={columns}
+        pagination="bottom"
         data={admins}
-        checkbox={false}
+        checkbox={true}
         hasEditPermission={true} // Assuming you have a way to determine this
         editBtnFun={(row) => console.log("Edit", row)} // Replace with your edit function
         handleDelete={(id) => console.log("Delete", id)} // Replace with your delete function

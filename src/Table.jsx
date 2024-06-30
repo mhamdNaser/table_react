@@ -8,6 +8,7 @@ import useSearch from "./hooks/useSearch";
 import Pagination from "./components/Pagination";
 
 const Table = ({
+  headercolor,
   Title,
   columns,
   direction,
@@ -17,6 +18,8 @@ const Table = ({
   editBtnFun,
   handleDelete,
   setSelectedItemsProp,
+  cellborder,
+  pagination,
 }) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const { query, setQuery, filteredData } = useSearch(data, columns, "");
@@ -58,28 +61,45 @@ const Table = ({
           {Title}
         </div>
         <div
-          className={`flex gap-4 ${
-            direction === "rtl" ? "flex-row-reverse" : ""
-          } mb-4`}
+          className={`flex ${direction === "rtl" ? "flex-row-reverse" : ""}`}
         >
-          <RowsPerPage
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={setRowsPerPage}
-            filteredDataLength={filteredData.length}
-          />
-          <Search query={query} onSearchChange={setQuery} />
-          <button
-            onClick={exportToPDF}
-            className="bg-redColor text-xl text-white px-2"
+          <div
+            className={`flex gap-4 ${
+              direction === "rtl" ? "flex-row-reverse" : ""
+            } mb-4`}
           >
-            <BsFiletypePdf />
-          </button>
-          <button
-            onClick={exportToExcel}
-            className="bg-greenColor text-xl text-white px-2"
-          >
-            <BsFiletypeXls />
-          </button>
+            <button
+              onClick={exportToPDF}
+              className="bg-redColor text-xl text-white px-2"
+            >
+              <BsFiletypePdf />
+            </button>
+            <button
+              onClick={exportToExcel}
+              className="bg-greenColor text-xl text-white px-2"
+            >
+              <BsFiletypeXls />
+            </button>
+            <RowsPerPage
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={setRowsPerPage}
+              filteredDataLength={filteredData.length}
+            />
+            <Search query={query} onSearchChange={setQuery} />
+          </div>
+          {pagination === "top" ? (
+            <div
+              className={`flex gap-4 ${
+                direction === "rtl" ? "flex-row-reverse" : ""
+              } mb-4`}
+            >
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
       <table
@@ -87,10 +107,12 @@ const Table = ({
         dir={direction}
       >
         <thead>
-          <tr className="bg-gray-800 text-white">
+          <tr className={`${headercolor || "bg-gray-800"} text-white`}>
             {checkbox && (
               <th
-                className={`py-3 uppercase font-semibold text-sm ${
+                className={`py-3 ${
+                  cellborder && "border-e border-gray-400"
+                } uppercase font-semibold text-sm ${
                   direction === "ltr" ? "text-left px-5" : "text-right px-8"
                 }`}
               >
@@ -100,7 +122,9 @@ const Table = ({
             {columns.map((column, index) => (
               <th
                 key={index}
-                className={`py-3 px-4 uppercase font-semibold text-sm ${
+                className={`py-3 px-4 ${
+                  cellborder && "border-e border-gray-400"
+                } uppercase font-semibold text-sm ${
                   direction === "ltr" ? "text-left" : "text-right"
                 }`}
                 style={{ maxWidth: column.maxWidth }}
@@ -127,7 +151,11 @@ const Table = ({
                 className="border-b border-gray-400 hover:bg-background-color bg-blocks-color"
               >
                 {checkbox && (
-                  <td className="py-3 px-4">
+                  <td
+                    className={`py-3 px-4 ${
+                      cellborder && "border-e border-gray-400"
+                    }`}
+                  >
                     <input
                       className="border border-blocks-color"
                       type="checkbox"
@@ -140,8 +168,8 @@ const Table = ({
                   <td
                     key={colIndex}
                     className={`py-3 px-4 ${
-                      direction === "ltr" ? "text-left" : "text-right"
-                    }`}
+                      cellborder && "border-e border-gray-400"
+                    } ${direction === "ltr" ? "text-left" : "text-right"}`}
                     style={{ maxWidth: column.maxWidth }}
                   >
                     {column.selector
@@ -159,11 +187,17 @@ const Table = ({
           )}
         </tbody>
       </table>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {pagination === "bottom" ? (
+        <div
+          className="py-4"
+        >
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      ) : null}
     </div>
   );
 };

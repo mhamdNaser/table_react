@@ -158,10 +158,10 @@ function App() {
       <Table
         Title={"إسم الجدول"}
         headercolor="bg-gray-400"
+        pagination="bottom"
         cellborder={false}
         direction={"rtl"}
         columns={columns}
-        pagination="bottom"
         data={admins}
         checkbox={true}
         hasEditPermission={true} // Assuming you have a way to determine this
